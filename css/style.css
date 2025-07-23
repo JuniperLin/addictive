@@ -1,0 +1,428 @@
+:root {
+  --nav-bg: rgba(191, 138, 96, 0.75); /* 主色半透明，建議直接用MENU色 */
+  --nav-bg-scrolled: rgba(191, 138, 96, 0.95); /* 滾動後更實色 */
+  --nav-link-color: #fff;
+  --nav-link-hover: #ffe0c7;
+  --nav-height: 68px;
+  --nav-radius: 2.5rem;
+  --nav-shadow: 0 2px 18px 0 rgba(0,0,0,0.07);
+  --main: #fcaa44;     /* 取自MENU主橘 */
+  --main-dark: #e1873b; /* 較深主橘 */
+  --main-light: #ffe0c7; /* 白米色 */
+  --second: #2b2323;    /* MENU的深咖啡 */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans TC", "Inter", sans-serif;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--nav-height);
+  background: var(--nav-bg);
+  border-radius: 0 0 var(--nav-radius) var(--nav-radius);
+  box-shadow: var(--nav-shadow);
+  backdrop-filter: blur(7px);
+  padding: .5vw 2vw;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.navbar.scrolled {
+  background: var(--nav-bg-scrolled);
+  box-shadow: 0 2px 28px 0 rgba(0,0,0,0.13);
+}
+
+.navbar-group {
+  display: contents;
+  gap: 2.2vw;
+}
+
+.navbar-logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  margin: 0 3vw;
+}
+.navbar-logo img {
+  height: 54px;
+  width: auto;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: cover;
+  box-shadow: 0 0 0 4px #fff3;
+}
+
+.nav-link {
+  color: var(--nav-link-color);
+  text-decoration: none;
+  font-size: 1.18rem;
+  letter-spacing: 0.03em;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 1.5em;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-link:hover,
+.nav-link:focus {
+  color: #c05a09;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0 4vw;
+  }
+  .navbar-group {
+    gap: 4vw;
+  }
+  .navbar-logo img {
+    height: 40px;
+  }
+}
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 2vw;
+    border-radius: 0 0 2em 2em;
+  }
+  .navbar-group {
+    justify-content: center;
+    gap: 3vw;
+  }
+  .navbar-logo {
+    margin: 10px 0;
+  }
+  .nav-link {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+}/* Banner Grid基礎 */
+.banner-grid {
+  width: 100%;
+  height: 100vh;
+  min-height: 520px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  position: relative;
+  overflow: hidden;
+  background: var(--main-light);
+}
+
+/* SVG blobs */
+.banner-blob-1,
+.banner-blob-2 {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  transition: 0.3s cubic-bezier(.55,.12,.37,1.24);
+}
+
+.banner-blob-1 {
+  width: 64vw;
+  left: -14vw;
+  top: -14vh;
+  opacity: 0.95;
+  filter: blur(1.5px);
+}
+.banner-blob-2 {
+  width: 52vw;
+  right: -20vw;
+  bottom: -20vh;
+  opacity: 0.66;
+  filter: blur(2px);
+}
+
+/* 左右內容 */
+.banner-left, .banner-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* 左側：banner_words */
+.banner-left {
+  grid-column: 1/2;
+  justify-content: center;
+  padding-right: 5vw;
+}
+.banner-words {
+  width: 90%;
+  max-width: 100%;
+  min-width: 140px;
+  filter: drop-shadow(0 6px 22px rgba(43,35,35,0.09));
+}
+
+/* 右側：CUP */
+.banner-right {
+  grid-column: 2/3;
+  justify-content: center;
+  padding-left: 3vw;
+}
+.banner-cup {
+  width: 100%;
+  max-width: 400px;
+  min-width: 900px;
+  margin-bottom: 2vw;
+  border-radius: 2.5em 2em 5em 1em/3em 5em 2em 4em;
+  object-fit: contain;
+}
+
+/* RWD - 小螢幕自動上下堆疊 */
+@media (max-width: 900px) {
+  .banner-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 45% 55%;
+    height: 70vh;
+    min-height: 360px;
+  }
+  .banner-left, .banner-right { justify-content: center; padding: 0; }
+  .banner-left { grid-row: 1/2; }
+  .banner-right { grid-row: 2/3; }
+  .banner-blob-1 { width: 98vw; left: -24vw; top: -12vh; }
+  .banner-blob-2 { width: 80vw; right: -32vw; bottom: -25vh; }
+  .banner-words { width: 76vw; max-width: 400px; }
+  .banner-cup { width: 46vw; max-width: 200px; }
+}
+.parallax-physical {
+  position: relative;
+  height: 100vh;
+  background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.6)),
+              url('../img/parallax-bg-img.jpg') center center / cover no-repeat fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1px;
+}
+
+.parallax-foreground {
+  position: relative;
+  z-index: 10;
+  padding: 3rem 4rem;
+  border-radius: 2rem;
+  max-width: 720px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  transform: translateZ(0.3px) scale(1.02);
+}
+
+.parallax-foreground h2 {
+  font-size: 1.8rem;
+  color: var(--second);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.parallax-foreground p {
+  font-size: 1.2rem;
+  color: var(--main-dark);
+  line-height: 1.8;
+}
+
+.parallax-content {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2.5rem 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 0 40px rgba(0,0,0,0.15);
+  max-width: 760px;
+}
+
+.parallax-content h2 {
+  font-size: 1.8rem;
+  color: var(--second);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.parallax-content p {
+  font-size: 1.25rem;
+  color: var(--main-dark);
+  line-height: 1.8;
+}
+
+.visual-section {
+  background-color: #fffdfc;
+  padding: 8vh 6vw;
+}
+
+.visual-section img {
+  max-width: 300px;   /* 可依需求調整數值 */
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6vh 4vw;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid-item img {
+  width: 100%;
+  border-radius: 2rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item.text p {
+  font-size: 1.2rem;
+  color: var(--second);
+  line-height: 1.8;
+  max-width: 100%;
+}
+
+.grid-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+.fade-in-left { transform: translateX(-40px); }
+.fade-in-right { transform: translateX(40px); }
+
+.grid-item.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* RWD 手機直排顯示：上下排列 */
+@media (max-width: 768px) {
+  .visual-grid {
+    grid-template-columns: 1fr;
+    gap: 4vh;
+  }
+}
+.styled-menu {
+  background: var(--main-light);
+  padding: 10vh 6vw;
+  color: var(--second);
+}
+
+.menu-title-wrap {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.menu-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--main);
+  letter-spacing: 0.05em;
+}
+.menu-sub {
+  font-size: 0.95rem;
+  color: #9a7e66;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.menu-grid-layout.two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.menu-column {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1.8rem;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.06);
+}
+.menu-category {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--main-light);
+  padding-bottom: 0.5rem;
+  color: var(--main-dark);
+}
+
+.menu-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.menu-column li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed #e8ddd2;
+}
+.menu-column li span:first-child {
+  font-weight: 500;
+}
+.menu-column li span:last-child {
+  font-weight: 600;
+  color: var(--main-dark);
+}
+
+.contact-section {
+  background: var(--main-dark);
+  color: white;
+  padding: 5vh 4vw 5vh;
+  text-align: center;
+  position: relative;
+}
+
+.contact-container {
+  max-width: 680px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem 1rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+.contact-title {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--main-light);
+  letter-spacing: 0.05em;
+}
+
+.contact-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #fff;
+}
+
+.ig-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffe0c7;
+  background: #c3580e;
+  padding: 0.6rem 1.2rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  transition: background 0.25s;
+}
+.ig-link:hover {
+  background: #a24400;
+}
